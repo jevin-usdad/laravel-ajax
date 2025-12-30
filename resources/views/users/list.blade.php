@@ -1,41 +1,102 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
+@section('title', __('User List') . ' | ' . config('app.name'))
+@section('content')
+    <link rel="stylesheet" href="{{ asset('custom.css') }}">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>User List</title>
-</head>
 
-<body>
+    @include('users.form')
+    @include('layouts.pop-up')
 
-    <table>
-        <tbody>
+
+
+    <div class="px-[250px] pt-[50px] pb-0" id="tableDiv">
+
+        <div class="flex justify-end">
+            <div class="py-[10px]">
+                <a id="addNewBtn" class="font-bold text-blue-700 px-[10px] cursor-pointer">Add New</a> |
+                <a class="font-bold text-red-500 px-[10px] cursor-pointer">Bulk Delete</a>
+            </div>
+        </div>
+
+        <table class="w-full">
             <thead>
-                <td>Sr no.</td>
-                <td>Select</td>
-                <td>Name</td>
-                <td>Contact no</td>
-                <td>Hobby</td>
-                <td>Category</td>
-                <td>Profile pic</td>
-                <td>Edit</td>
-
+                <tr class="text-bold">
+                    <th>Sr no.</th>
+                    <th>Select</th>
+                    <th>Name</th>
+                    <th>Contact no</th>
+                    <th>Hobby</th>
+                    <th>Category</th>
+                    <th>Profile pic</th>
+                    <th>Edit</th>
+                </tr>
             </thead>
-            <tr>
-                <td>1</td>
-                <td>2</td>
-                <td>3</td>
-                <td>3</td>
-                <td>3</td>
-                <td>3</td>
-                <td>3</td>
-                <td>3</td>
-            </tr>
-        </tbody>
-    </table>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td><input type="checkbox" class="cursor-pointer" name="users[]"></td>
+                    <td>Divya</td>
+                    <td>+262 269 xx xxx26</td>
+                    <td>Music,
+                        Games,
+                        Football</td>
+                    <td>Developer</td>
+                    <td>
+                        <img src="https://i.pravatar.cc/150?img=3" alt="Profile">
+                    </td>
+                    <td>
+                        <a id="editBtn" class="font-bold text-red-500 cursor-pointer">Edit</a> /
+                        <a class="deleteBtn font-bold text-green-500 cursor-pointer">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
-</body>
+    </div>
 
-</html>
+
+    <script>
+        $(document).ready(function() {
+
+            let deleteRow = null;
+
+            $(document).on('click', '#addNewBtn', function() {
+                $('#tableDiv').addClass('hidden');
+                $('#formDiv').removeClass('hidden');
+            });
+
+            $(document).on('click', '#cancleBtn', function() {
+                $('#tableDiv').removeClass('hidden');
+                $('#formDiv').addClass('hidden');
+            });
+
+            $(document).on('click', '#editBtn', function() {
+                $('#tableDiv').addClass('hidden');
+                $('#formDiv').removeClass('hidden');
+            });
+
+            $(document).on('click', '.deleteBtn', function() {
+                deleteRow = $(this).closest('tr');
+                $('#deleteModal').removeClass('hidden').addClass('flex');
+            });
+
+            $('#cancelDelete').click(function() {
+                $('#deleteModal').addClass('hidden').removeClass('flex');
+                deleteRow = null;
+            });
+
+            $('#confirmDelete').click(function() {
+
+                if (deleteRow) {
+                    deleteRow.remove();
+                }
+
+                $('#deleteModal').addClass('hidden').removeClass('flex');
+            });
+
+        });
+    </script>
+
+
+
+@endsection
