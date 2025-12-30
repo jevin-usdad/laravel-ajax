@@ -3,9 +3,10 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
@@ -21,6 +22,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'contact_no',
+        'profile_pic'
     ];
 
     /**
@@ -44,5 +47,24 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'category_users')->withTimestamps();;
+    }
+
+    public function hobbies()
+    {
+        return $this->belongsToMany(Hobby::class, 'hobby_users')->withTimestamps();;
+    }
+
+    public function getProfilePicAttribute($value)
+    {
+        if ($value && Storage::disk('public')->exists($value)) {
+            return $value;
+        }
+
+        return;
     }
 }

@@ -1,5 +1,5 @@
 <div id="deleteModal"
-     class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 hidden">
+     class="fixed inset-0 bg-white bg-opacity-50 hidden items-center justify-center z-50 hidden">
 
     <div class="bg-white w-[400px] rounded shadow-lg p-6">
         <h2 class="text-lg font-bold mb-4">Confirm Delete</h2>
